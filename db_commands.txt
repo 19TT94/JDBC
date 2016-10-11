@@ -1,0 +1,59 @@
+CREATE TABLE WritingGroup
+  (
+  GroupName     VARCHAR(20)     NOT NULL,
+  HeadWriter    VARCHAR(15)     NOT NULL,
+  YearFormed    DATE ,
+  Subject       VARCHAR(12)     NOT NULL,
+  CONSTRAINT pk_WritingGroup PRIMARY KEY (GroupName)
+  );
+
+CREATE TABLE Books
+  (
+  GroupName         VARCHAR(50)     NOT NULL,
+  BookTitle         VARCHAR(50)     NOT NULL,
+  PublisherName     VARCHAR(50)     NOT NULL,
+  YearPublished     DATE,
+  NumberPages       INT             NOT NULL,
+  CONSTRAINT pk_Books PRIMARY KEY (GroupName, BookTitle)
+  );
+
+CREATE TABLE Publishers
+  (
+  PublisherName      VARCHAR(20)      NOT NULL,
+  PublisherAddress   VARCHAR(40)      NOT NULL,
+  PublisherPhone     VARCHAR(40)      NOT NULL,
+  PublisherEmail     VARCHAR(40)      NOT NULL,
+  CONSTRAINT pk_Publishers PRIMARY KEY (PublisherName)
+  );
+ALTER TABLE Books
+          ADD CONSTRAINT books_writinggroups_publishers_fk
+          FOREIGN KEY (GroupName, PublisherName)
+          REFERENCES WritingGroup (GroupName) Publishers(PublisherName);
+
+INSERT INTO WritingGroup VALUES('Happy Face','Wendy Heydemark','2012-04-01','history');
+INSERT INTO WritingGroup VALUES('Angry Bird','Klee Hull','2014-08-24','psychology');
+INSERT INTO WritingGroup VALUES('Anonymous','Wendy Heydemark','2015-06-01','geography');
+INSERT INTO WritingGroup Values ('TikTok', 'Hallie Hull', '2010-03-04', 'computer' );
+Insert into WritingGroup Values ('San Francisco', 'Christian Kells', '2014-09-23', 'biology');
+Insert Into WritingGroup Values ('Furniture', 'Paddy Oneil', '2013-04-05', 'furniture');
+
+
+
+INSERT INTO publishers VALUES('Abatis Publishers','2922 Baseline Rd Boulder CO 80303', '303-986-7020','abatis@outlook.com);
+INSERT INTO publishers VALUES('Core Dump Books','3800 Waldo Ave San Francisco CA 94123','415-549-4278','core_dump_books@yahoo.com);
+INSERT INTO publishers VALUES('Schadenfreude Press','114 Horatio St New York NY 10014','212-771-4680', 'schadenfreude_press@ymail.com');
+INSERT INTO publishers VALUES('Tenterhooks Press','390 Berkeley CA 94305','650-836-7128','tenderhook@press.com');
+
+
+INSERT INTO BOOKS VALUES('Happy Face','200 Years of German Humor','Abatis Publishers','2013-04-01',500);
+INSERT INTO BOOKS VALUES('Happy Face','Ask Your System Administrator','Abatis Publishers','2014-09-01',250);
+INSERT INTO BOOKS VALUES('Happy Face','But I Did It Unconsciously','Core Dump Books','2013-05-31',400);
+INSERT INTO BOOKS VALUES('Angry Bird','Exchange of Platitudes','Abatis Publishers','2015-01-01',1000);
+INSERT INTO BOOKS VALUES('Angry Bird','How About Never?','Schadenfreude Press','2014-07-31',600);
+INSERT INTO BOOKS VALUES('Anonymous','I Blame My Mother','Tenterhooks Press','2013-10-01',150);
+INSERT INTO BOOKS VALUES('Anonymous','Just Wait Until After School','Abatis Publishers','2015-06-01',700);
+INSERT INTO BOOKS VALUES('TikTok','Kiss My Boo-Boo','Schadenfreude Press','2016-05-31',440);
+INSERT INTO BOOKS VALUES('San Francisco','Not Without My Faberge Egg','Schadenfreude Press','2016-02-24',200);
+INSERT INTO BOOKS VALUES('San Francisco','Perhaps It''s a Glandular Problem','Core Dump Books','2014-11-30',540);
+INSERT INTO BOOKS VALUES('San Francisco','Spontaneous, Not Annoying','Abatis Publishers','2014-08-31',340);
+INSERT INTO BOOKS VALUES('Furniture','What Are The Civilian Applications?','Tenterhooks Press','2013-05-31',200);
