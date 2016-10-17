@@ -112,22 +112,25 @@ public class JDBC {
                     System.out.println("");
                     
                     System.out.println("Would You like to know more about the Writing groups? (y/n)");
-//                    String answer = validBool(in.nextLine());
-                    System.out.println("\nCreating Statement...\n");
-                    sql = "SELECT headwriter FROM writinggroup";
-                    rs = stmt.executeQuery(sql);
-
-                    //STEP 5: Extract data from result set
-                    System.out.printf(displayFormatCol1, "head");
-                    while (rs.next()) {
-                        //Retrieve by column name
-                        String name = rs.getString("headwriter");
-
-                        //Display values
-                        System.out.printf(displayFormatCol1, dispNull(name));
-                    }
-                    System.out.println("");
+                    char answer = validBool(in.nextLine());
                     
+                    if(answer == 'y') {
+                        System.out.println("\nCreating Statement...\n");
+                        sql = "SELECT headwriter FROM writinggroup";
+                        rs = stmt.executeQuery(sql);
+
+                        //STEP 5: Extract data from result set
+                        System.out.printf(displayFormatCol1, "head");
+                        while (rs.next()) {
+                            //Retrieve by column name
+                            String name = rs.getString("headwriter");
+
+                            //Display values
+                            System.out.printf(displayFormatCol1, dispNull(name));
+                        }
+                        System.out.println("");
+                    }
+                                        
                 }
 
                 if(select == 2) {
@@ -224,13 +227,41 @@ public class JDBC {
         if(entry.equals("exit")) {
             System.exit(0);
         }
+        
+        //make sure value entered is an integer
         int value = 0;
         try {
-            return value = Integer.parseInt(entry); 
+            value = Integer.parseInt(entry); 
         } catch(NumberFormatException e) {
-            System.out.println("Not a valid Integer please re-enter");
+            System.out.println("Not a valid Integer please re-try");
         }
-        return 0;
+        
+        //check range
+        if(value > 0 && value < 7) {
+            return value;
+        }
+        else {
+            System.out.println("Invalid entry, out of range, please re-try");
+            return 0;
+        }
+        
     }
     
+    public static char validBool(String entry) {
+        if(entry.equals("exit")) {
+            System.exit(0);
+        }
+        
+        char valid = entry.charAt(0);
+        if(valid == 'y' || valid == 'n') {
+            return valid;
+        }
+        else {
+            System.out.println("Invalid entry, must be 'y' or 'n'");
+            return 'e';
+        }
+ 
+    }
 }
+
+
