@@ -8,7 +8,10 @@
 package jdbc;
 
 import java.sql.*;
+import java.util.InputMismatchException;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Given code
@@ -72,10 +75,14 @@ public class JDBC {
             System.out.println("Information for queries listed below:");
             System.out.println("(enter number for the desired table listing or action)");
             System.out.println("Tables:\n1). Writing Groups\n2). Publishers\n3). Book Titles\n\n");
-            System.out.println("\nUpdate Database:\n4). Add a Publisher\n5). Add a new Book\n6). Remove a book");
+            System.out.println("\nUpdate Database:\n4). Add a Publisher\n5). Add a new Book\n6). Remove a book\n");
 
-            //STEP 4: Execute a query
+            int select = 0;
+            System.out.println("Select corresponding number for query, then hit 'enter':");
+            select = in.nextInt();
+            validInt(select);
             
+            //STEP 4: Execute a query
             System.out.println("Creating statement...");
             stmt = conn.createStatement();
             String sql;
@@ -120,6 +127,17 @@ public class JDBC {
                 se.printStackTrace();
             }
         }
-        System.out.println("Goodbye!");
+    }
+    
+    public static void validInt(int entry) {
+        if(entry < 0 || entry > 7) {
+            try {
+                throw new InvalidIntException("Integer selection must be less than 7 and non-negative, please re-enter");
+            } catch (InvalidIntException ex) {
+                Logger.getLogger(JDBC.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (InputMismatchException e) {
+                Logger.getLogger(JDBC.class.getName()).log(Level.SEVERE, null, e);
+            }
+        }
     }
 }
