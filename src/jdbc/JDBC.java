@@ -75,95 +75,98 @@ public class JDBC {
             conn = DriverManager.getConnection(DB_URL);
             
             System.out.println("\nNo Errors Connected\n");
-             
-            System.out.println("Information for queries listed below:");
-            System.out.println("(enter number for the desired table listing or action)");
-            System.out.println("Tables:\n1). Writing Groups\n2). Publishers\n3). Book Titles\n");
-            System.out.println("\nUpdate Database:\n4). Add a Publisher\n5). Add a new Book\n6). Remove a book\n");
-
-            int select = 0;
-            System.out.println("Select corresponding number for query, then hit 'enter':");
-            select = in.nextInt();
-            validInt(select);
             
             String sql = null;
             ResultSet rs = null;
-            // Queries for each selection
-            if(select == 1) {
-                //STEP 4: Execute a query
-                System.out.println("\nCreating statement...\n");
-                stmt = conn.createStatement();
-                sql = "SELECT groupname FROM writinggroup";
-                rs = stmt.executeQuery(sql);
+            while(!(in.nextLine().equals("exit"))) {
+                System.out.println("Information for queries listed below:");
+                System.out.println("(enter number for the desired table listing or action)");
+                System.out.println("Tables:\n1). Writing Groups\n2). Publishers\n3). Book Titles\n");
+                System.out.println("\nUpdate Database:\n4). Add a Publisher\n5). Add a new Book\n6). Remove a book\n");
 
-                //STEP 5: Extract data from result set
-                System.out.printf(displayFormatCol1, "Group Name");
-                while (rs.next()) {
-                    //Retrieve by column name
-                    String name = rs.getString("groupname");
+                int select = 0;
+                System.out.println("Select corresponding number for query, then hit 'enter':");
+                select = in.nextInt();
+                validInt(select);
+                
+                // Queries for each selection
+                if(select == 1) {
+                    //STEP 4: Execute a query
+                    System.out.println("\nCreating statement...\n");
+                    stmt = conn.createStatement();
+                    sql = "SELECT groupname FROM writinggroup";
+                    rs = stmt.executeQuery(sql);
 
-                    //Display values
-                    System.out.printf(displayFormatCol1, dispNull(name));
+                    //STEP 5: Extract data from result set
+                    System.out.printf(displayFormatCol1, "Group Name");
+                    while (rs.next()) {
+                        //Retrieve by column name
+                        String name = rs.getString("groupname");
+
+                        //Display values
+                        System.out.printf(displayFormatCol1, dispNull(name));
+                    }
+                }
+
+                if(select == 2) {
+                    //STEP 4: Execute a query
+                    System.out.println("\nCreating statement...\n");
+                    stmt = conn.createStatement();
+                    sql = "SELECT publishername FROM publishers";
+                    rs = stmt.executeQuery(sql);
+
+                    //STEP 5: Extract data from result set
+                    System.out.printf(displayFormatCol1, "Publisher");
+                    while (rs.next()) {
+                        //Retrieve by column name
+                        String name = rs.getString("publishername");
+
+                        //Display values
+                        System.out.printf(displayFormatCol1, dispNull(name));
+                    }
+                }
+
+                if(select == 3) {
+                     //STEP 4: Execute a query
+                    System.out.println("\nCreating statement...\n");
+                    stmt = conn.createStatement();
+                    sql = "SELECT booktitle FROM books";
+                    rs = stmt.executeQuery(sql);
+
+                    //STEP 5: Extract data from result set
+                    System.out.printf(displayFormatCol1,"Books");
+                    while (rs.next()) {
+                        //Retrieve by column name
+                        String name = rs.getString("booktitle");
+
+                        //Display values
+                        System.out.printf(displayFormatCol1, dispNull(name));
+                    }
+                }
+
+                if(select == 4) {
+                    //STEP 4: Execute a query
+                    System.out.println("Creating statement...");
+                    stmt = conn.createStatement();
+                    sql = "SELECT au_id, au_fname, au_lname, phone FROM Authors";
+                    rs = stmt.executeQuery(sql);
+
+                    //STEP 5: Extract data from result set
+                    System.out.printf(displayFormatCol4, "ID", "First Name", "Last Name", "Phone #");
+                    while (rs.next()) {
+                        //Retrieve by column name
+                        String id = rs.getString("au_id");
+                        String phone = rs.getString("phone");
+                        String first = rs.getString("au_fname");
+                        String last = rs.getString("au_lname");
+
+                        //Display values
+                        System.out.printf(displayFormatCol4, 
+                                dispNull(id), dispNull(first), dispNull(last), dispNull(phone));
+                    }
                 }
             }
             
-            if(select == 2) {
-                //STEP 4: Execute a query
-                System.out.println("\nCreating statement...\n");
-                stmt = conn.createStatement();
-                sql = "SELECT publishername FROM publishers";
-                rs = stmt.executeQuery(sql);
-
-                //STEP 5: Extract data from result set
-                System.out.printf(displayFormatCol1, "Publisher");
-                while (rs.next()) {
-                    //Retrieve by column name
-                    String name = rs.getString("publishername");
-
-                    //Display values
-                    System.out.printf(displayFormatCol1, dispNull(name));
-                }
-            }
-            
-            if(select == 3) {
-                 //STEP 4: Execute a query
-                System.out.println("\nCreating statement...\n");
-                stmt = conn.createStatement();
-                sql = "SELECT booktitle FROM books";
-                rs = stmt.executeQuery(sql);
-
-                //STEP 5: Extract data from result set
-                System.out.printf(displayFormatCol1,"Books");
-                while (rs.next()) {
-                    //Retrieve by column name
-                    String name = rs.getString("booktitle");
-
-                    //Display values
-                    System.out.printf(displayFormatCol1, dispNull(name));
-                }
-            }
-            
-            if(select == 4) {
-                //STEP 4: Execute a query
-                System.out.println("Creating statement...");
-                stmt = conn.createStatement();
-                sql = "SELECT au_id, au_fname, au_lname, phone FROM Authors";
-                rs = stmt.executeQuery(sql);
-
-                //STEP 5: Extract data from result set
-                System.out.printf(displayFormatCol4, "ID", "First Name", "Last Name", "Phone #");
-                while (rs.next()) {
-                    //Retrieve by column name
-                    String id = rs.getString("au_id");
-                    String phone = rs.getString("phone");
-                    String first = rs.getString("au_fname");
-                    String last = rs.getString("au_lname");
-
-                    //Display values
-                    System.out.printf(displayFormatCol4, 
-                            dispNull(id), dispNull(first), dispNull(last), dispNull(phone));
-                }
-            }
              //STEP 6: Clean-up environment
             rs.close();
             stmt.close();
