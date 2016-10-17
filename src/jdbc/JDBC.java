@@ -90,10 +90,10 @@ public class JDBC {
                 int select = 0;
                 System.out.println("Select corresponding number for query, then hit 'enter':");
                 select = validInt(in.nextLine());
-                
                           
                 // Queries for each selection
                 if(select == 1) {
+                    System.out.println("In one");
                     //STEP 4: Execute a query
                     System.out.println("\nCreating statement...\n");
                     stmt = conn.createStatement();
@@ -113,6 +113,21 @@ public class JDBC {
                     
                     System.out.println("Would You like to know more about the Writing groups? (y/n)");
 //                    String answer = validBool(in.nextLine());
+                    System.out.println("\nCreating Statement...\n");
+                    sql = "SELECT headwriter FROM writinggroup";
+                    rs = stmt.executeQuery(sql);
+
+                    //STEP 5: Extract data from result set
+                    System.out.printf(displayFormatCol1, "head");
+                    while (rs.next()) {
+                        //Retrieve by column name
+                        String name = rs.getString("headwriter");
+
+                        //Display values
+                        System.out.printf(displayFormatCol1, dispNull(name));
+                    }
+                    System.out.println("");
+                    
                 }
 
                 if(select == 2) {
@@ -211,7 +226,7 @@ public class JDBC {
         }
         int value = 0;
         try {
-            value = Integer.parseInt(entry); 
+            return value = Integer.parseInt(entry); 
         } catch(NumberFormatException e) {
             System.out.println("Not a valid Integer please re-enter");
         }
