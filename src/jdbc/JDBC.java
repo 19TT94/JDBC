@@ -8,6 +8,7 @@
 package jdbc;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.util.logging.Level;
@@ -101,22 +102,29 @@ public class JDBC {
                     rs = stmt.executeQuery(sql);
 
                     //STEP 5: Extract data from result set
-                    System.out.printf(displayFormatCol1, "Group Name");
+                    System.out.printf(displayFormatCol2, "Writing Groups", "Group Name");
+                    Integer count = 0;
+                    ArrayList arr = new ArrayList();
                     while (rs.next()) {
+                        count++;
                         //Retrieve by column name
                         String name = rs.getString("groupname");
-
+                        arr.add(name);
+                        
                         //Display values
-                        System.out.printf(displayFormatCol1, dispNull(name));
+                        System.out.printf(displayFormatCol2, dispNull(count.toString()), dispNull(name));
                     }
                     System.out.println("");
                     
-                    System.out.println("Would You like to know more about the Writing groups? (y/n)");
+                    System.out.println("Would You like to know more about a specific Writing group? (y/n)");
                     char answer = validBool(in.nextLine());
                     
                     if(answer == 'y') {
+                        System.out.println("Enter corresponding number for more data on specific group");
+                        select = validInt(in.nextLine());
+                        System.out.println(arr.get(select));
                         System.out.println("\nCreating Statement...\n");
-                        sql = "SELECT headwriter FROM writinggroup";
+                        sql = "SELECT * FROM writinggroup WHERE groupname = " + "'" +arr.get(select) + "'";
                         rs = stmt.executeQuery(sql);
 
                         //STEP 5: Extract data from result set
