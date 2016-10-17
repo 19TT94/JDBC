@@ -29,7 +29,7 @@ public class JDBC {
     //The number indicates how wide to make the field.
     //The "s" denotes that it's a string.  All of our output in this test are 
     //strings, but that won't always be the case.
-    static final String displayFormat="%-5s%-15s%-15s%-15s\n";
+    static final String displayFormat="%-15s%-15s%-15s%-15s\n";
 // JDBC driver name and database URL
     static final String JDBC_DRIVER = "org.apache.derby.jdbc.ClientDriver";
     static String DB_URL = "jdbc:derby://localhost:1527/";
@@ -74,7 +74,7 @@ public class JDBC {
              
             System.out.println("Information for queries listed below:");
             System.out.println("(enter number for the desired table listing or action)");
-            System.out.println("Tables:\n1). Writing Groups\n2). Publishers\n3). Book Titles\n\n");
+            System.out.println("Tables:\n1). Writing Groups\n2). Publishers\n3). Book Titles\n");
             System.out.println("\nUpdate Database:\n4). Add a Publisher\n5). Add a new Book\n6). Remove a book\n");
 
             int select = 0;
@@ -84,9 +84,10 @@ public class JDBC {
             
             String sql = null;
             ResultSet rs = null;
+            // Queries for each selection
             if(select == 1) {
                 //STEP 4: Execute a query
-                System.out.println("Creating statement...");
+                System.out.println("\nCreating statement...\n");
                 stmt = conn.createStatement();
                 sql = "Select * From WritingGroup";
                 rs = stmt.executeQuery(sql);
@@ -106,27 +107,51 @@ public class JDBC {
                 }
             }
             
-//            //STEP 4: Execute a query
-//            System.out.println("Creating statement...");
-//            stmt = conn.createStatement();
-//            String sql;
-//            sql = "SELECT au_id, au_fname, au_lname, phone FROM Authors";
-//            ResultSet rs = stmt.executeQuery(sql);
-//
-//            //STEP 5: Extract data from result set
-//            System.out.printf(displayFormat, "ID", "First Name", "Last Name", "Phone #");
-//            while (rs.next()) {
-//                //Retrieve by column name
-//                String id = rs.getString("au_id");
-//                String phone = rs.getString("phone");
-//                String first = rs.getString("au_fname");
-//                String last = rs.getString("au_lname");
-//
-//                //Display values
-//                System.out.printf(displayFormat, 
-//                        dispNull(id), dispNull(first), dispNull(last), dispNull(phone));
-//            }
-            //STEP 6: Clean-up environment
+            if(select == 2) {
+                //STEP 4: Execute a query
+                System.out.println("Creating statement...");
+                stmt = conn.createStatement();
+                sql = "SELECT groupname FROM writinggroup";
+                rs = stmt.executeQuery(sql);
+
+                //STEP 5: Extract data from result set
+                System.out.printf(displayFormat, "Group Name", "Head Writer", "Year Formed", "Subject");
+                while (rs.next()) {
+                    //Retrieve by column name
+                    String name = rs.getString("groupname");
+                    String writer = rs.getString("headwriter");
+                    String year = rs.getString("yearformed");
+                    String sub = rs.getString("subject");
+
+                    //Display values
+                    System.out.printf(displayFormat, 
+                            dispNull(name), dispNull(writer), dispNull(year), dispNull(sub));
+                }
+            }
+            
+            if(select == 3) {
+                //STEP 4: Execute a query
+                System.out.println("Creating statement...");
+                stmt = conn.createStatement();
+                sql = "SELECT au_id, au_fname, au_lname, phone FROM Authors";
+                rs = stmt.executeQuery(sql);
+
+                //STEP 5: Extract data from result set
+                System.out.printf(displayFormat, "ID", "First Name", "Last Name", "Phone #");
+                while (rs.next()) {
+                    //Retrieve by column name
+                    String id = rs.getString("au_id");
+                    String phone = rs.getString("phone");
+                    String first = rs.getString("au_fname");
+                    String last = rs.getString("au_lname");
+
+                    //Display values
+                    System.out.printf(displayFormat, 
+                            dispNull(id), dispNull(first), dispNull(last), dispNull(phone));
+                }
+                //STEP 6: Clean-up environment
+            }
+            
             rs.close();
             stmt.close();
             conn.close();
