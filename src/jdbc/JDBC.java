@@ -76,8 +76,11 @@ public class JDBC {
             
             System.out.println("\nNo Errors Connected\n");
             
+            System.out.println("Hit 'enter' to begin queries (type 'exit' then hit 'enter' to quit at any time)");
+            
             String sql = null;
             ResultSet rs = null;
+            
             while(!(in.nextLine().equals("exit"))) {
                 System.out.println("Information for queries listed below:");
                 System.out.println("(enter number for the desired table listing or action)");
@@ -86,9 +89,8 @@ public class JDBC {
 
                 int select = 0;
                 System.out.println("Select corresponding number for query, then hit 'enter':");
-                select = in.nextInt();
-                validInt(select);
-                
+                select = validInt(in.nextLine());
+                          
                 // Queries for each selection
                 if(select == 1) {
                     //STEP 4: Execute a query
@@ -106,6 +108,7 @@ public class JDBC {
                         //Display values
                         System.out.printf(displayFormatCol1, dispNull(name));
                     }
+                    System.out.println("");
                 }
 
                 if(select == 2) {
@@ -124,6 +127,7 @@ public class JDBC {
                         //Display values
                         System.out.printf(displayFormatCol1, dispNull(name));
                     }
+                    System.out.println("");
                 }
 
                 if(select == 3) {
@@ -142,6 +146,7 @@ public class JDBC {
                         //Display values
                         System.out.printf(displayFormatCol1, dispNull(name));
                     }
+                    System.out.println("");
                 }
 
                 if(select == 4) {
@@ -164,7 +169,9 @@ public class JDBC {
                         System.out.printf(displayFormatCol4, 
                                 dispNull(id), dispNull(first), dispNull(last), dispNull(phone));
                     }
+                    System.out.println("");
                 }
+                System.out.println("Hit 'enter' for another query or 'exit' to end program");
             }
             
              //STEP 6: Clean-up environment
@@ -194,15 +201,20 @@ public class JDBC {
         }
     }
     
-    public static void validInt(int entry) {
-        if(entry < 0 || entry > 7) {
-            try {
-                throw new InvalidIntException("Integer selection must be less than 7 and non-negative, please re-enter");
-            } catch (InvalidIntException ex) {
-                Logger.getLogger(JDBC.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (InputMismatchException e) {
-                Logger.getLogger(JDBC.class.getName()).log(Level.SEVERE, null, e);
-            }
+    public static int validInt(String entry) {
+        if(entry.equals("exit")) {
+            System.exit(0);
         }
+        int value = Integer.parseInt(entry);
+        if(value > 0 && value < 7) {
+            return value;
+        }
+        else
+            return  InvalidIntException("Integer selection must be less than 7 and non-negative, please re-enter");
     }
+
+    private static int InvalidIntException(String message) {
+        throw new UnsupportedOperationException("message");
+    }
+    
 }
