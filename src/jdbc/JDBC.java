@@ -45,12 +45,16 @@ public class JDBC {
     }
     
     public static void main(String[] args) {
+        //Initial app log
+        System.out.println("Writing Groups Database Connection\n\n");
+        
         //Prompt the user for the database name, and the credentials.
         //If your database has no credentials, you can update this code to 
         //remove that from the connection string.
         Scanner in = new Scanner(System.in);
         System.out.print("Name of the database (not the user account): ");
         DBNAME = in.nextLine();
+      
         //Constructing the database URL connection string
         DB_URL = DB_URL + DBNAME;
         Connection conn = null; //initialize the connection
@@ -62,8 +66,16 @@ public class JDBC {
             //STEP 3: Open a connection
             System.out.println("Connecting to database...");
             conn = DriverManager.getConnection(DB_URL);
+            
+            System.out.println("\nNo Errors Connected\n");
+             
+            System.out.println("Information for queries listed below:");
+            System.out.println("(enter number for the desired table listing or action)");
+            System.out.println("Tables:\n1). Writing Groups\n2). Publishers\n3). Book Titles\n\n");
+            System.out.println("\nUpdate Database:\n4). Add a Publisher\n5). Add a new Book\n6). Remove a book");
 
             //STEP 4: Execute a query
+            
             System.out.println("Creating statement...");
             stmt = conn.createStatement();
             String sql;
