@@ -90,6 +90,7 @@ public class JDBC {
                 int select = 0;
                 System.out.println("Select corresponding number for query, then hit 'enter':");
                 select = validInt(in.nextLine());
+                
                           
                 // Queries for each selection
                 if(select == 1) {
@@ -109,6 +110,9 @@ public class JDBC {
                         System.out.printf(displayFormatCol1, dispNull(name));
                     }
                     System.out.println("");
+                    
+                    System.out.println("Would You like to know more about the Writing groups? (y/n)");
+//                    String answer = validBool(in.nextLine());
                 }
 
                 if(select == 2) {
@@ -205,16 +209,13 @@ public class JDBC {
         if(entry.equals("exit")) {
             System.exit(0);
         }
-        int value = Integer.parseInt(entry);
-        if(value > 0 && value < 7) {
-            return value;
+        int value = 0;
+        try {
+            value = Integer.parseInt(entry); 
+        } catch(NumberFormatException e) {
+            System.out.println("Not a valid Integer please re-enter");
         }
-        else
-            return  InvalidIntException("Integer selection must be less than 7 and non-negative, please re-enter");
-    }
-
-    private static int InvalidIntException(String message) {
-        throw new UnsupportedOperationException("message");
+        return 0;
     }
     
 }
