@@ -82,26 +82,50 @@ public class JDBC {
             select = in.nextInt();
             validInt(select);
             
-            //STEP 4: Execute a query
-            System.out.println("Creating statement...");
-            stmt = conn.createStatement();
-            String sql;
-            sql = "SELECT au_id, au_fname, au_lname, phone FROM Authors";
-            ResultSet rs = stmt.executeQuery(sql);
+            String sql = null;
+            ResultSet rs = null;
+            if(select == 1) {
+                //STEP 4: Execute a query
+                System.out.println("Creating statement...");
+                stmt = conn.createStatement();
+                sql = "SELECT au_id, au_fname, au_lname, phone FROM Authors";
+                rs = stmt.executeQuery(sql);
 
-            //STEP 5: Extract data from result set
-            System.out.printf(displayFormat, "ID", "First Name", "Last Name", "Phone #");
-            while (rs.next()) {
-                //Retrieve by column name
-                String id = rs.getString("au_id");
-                String phone = rs.getString("phone");
-                String first = rs.getString("au_fname");
-                String last = rs.getString("au_lname");
+                //STEP 5: Extract data from result set
+                System.out.printf(displayFormat, "ID", "First Name", "Last Name", "Phone #");
+                while (rs.next()) {
+                    //Retrieve by column name
+                    String id = rs.getString("au_id");
+                    String phone = rs.getString("phone");
+                    String first = rs.getString("au_fname");
+                    String last = rs.getString("au_lname");
 
-                //Display values
-                System.out.printf(displayFormat, 
-                        dispNull(id), dispNull(first), dispNull(last), dispNull(phone));
+                    //Display values
+                    System.out.printf(displayFormat, 
+                            dispNull(id), dispNull(first), dispNull(last), dispNull(phone));
+                }
             }
+            
+//            //STEP 4: Execute a query
+//            System.out.println("Creating statement...");
+//            stmt = conn.createStatement();
+//            String sql;
+//            sql = "SELECT au_id, au_fname, au_lname, phone FROM Authors";
+//            ResultSet rs = stmt.executeQuery(sql);
+//
+//            //STEP 5: Extract data from result set
+//            System.out.printf(displayFormat, "ID", "First Name", "Last Name", "Phone #");
+//            while (rs.next()) {
+//                //Retrieve by column name
+//                String id = rs.getString("au_id");
+//                String phone = rs.getString("phone");
+//                String first = rs.getString("au_fname");
+//                String last = rs.getString("au_lname");
+//
+//                //Display values
+//                System.out.printf(displayFormat, 
+//                        dispNull(id), dispNull(first), dispNull(last), dispNull(phone));
+//            }
             //STEP 6: Clean-up environment
             rs.close();
             stmt.close();
