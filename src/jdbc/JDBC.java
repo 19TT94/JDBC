@@ -313,6 +313,44 @@ public class JDBC {
                     System.out.println("");
                 }
                 
+                if(select == 6) {
+                    stmt = conn.createStatement();
+                    sql = "SELECT booktitle FROM books";
+                    rs = stmt.executeQuery(sql);
+                    
+                    Integer count = 0;
+                    ArrayList arr = new ArrayList();
+                    //STEP 5: Extract data from result set
+                    System.out.printf(displayFormatCol2, "Books", "Book Titles");
+                    while (rs.next()) {
+                        count++;
+                        //Retrieve by column name
+                        String name = rs.getString("booktitle");
+                        arr.add(name);
+                        
+                        //Display values
+                        System.out.printf(displayFormatCol2, dispNull(count.toString()), dispNull(name));
+                    }
+                    
+                    System.out.println("Enter corresponding number of title to be deleted");
+                    int select2 = checkSetRange(validInt(in.nextLine()), 0, (count + 1));
+                        
+                    if(select2 == 0)
+                        continue;
+                    
+                    //STEP 4: Execute a query
+                    System.out.println("Creating statement...");
+                    stmt = conn.createStatement();
+                    
+                    sql = "Delete From Books where booktitle = '" + arr.get(select2-1) + "'";
+                    System.out.println(sql);
+                    stmt.executeUpdate(sql);
+
+                    System.out.println("...Table Updated");
+                    System.out.println("To see results hit enter and choose books table");
+                    System.out.println("");
+                }
+                
             }
 
              //STEP 6: Clean-up environment
