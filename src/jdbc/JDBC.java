@@ -90,7 +90,7 @@ public class JDBC {
 
                 int select = 0;
                 System.out.println("Select corresponding number for query, then hit 'enter':");
-                select = validInt(in.nextLine());
+                select = checkSetRange(validInt(in.nextLine()), 0, 7);
                           
                 // Queries for each selection
                 if(select == 1) {
@@ -121,20 +121,22 @@ public class JDBC {
                     
                     if(answer == 'y') {
                         System.out.println("Enter corresponding number for more data on specific group");
-                        select = validInt(in.nextLine());
-                        System.out.println(arr.get(select));
+                        int select2 = checkSetRange(validInt(in.nextLine()), 0, 7);
                         System.out.println("\nCreating Statement...\n");
-                        sql = "SELECT * FROM writinggroup WHERE groupname = " + "'" +arr.get(select) + "'";
+                        sql = "SELECT groupname, headwriter, yearformed, subject FROM writinggroup WHERE groupname = " + "'" +arr.get(select2-1) + "'";
                         rs = stmt.executeQuery(sql);
 
                         //STEP 5: Extract data from result set
-                        System.out.printf(displayFormatCol1, "head");
+                        System.out.printf(displayFormatCol4, "Group Name", "Head Writer", "Year Formed", "Subject");
                         while (rs.next()) {
                             //Retrieve by column name
-                            String name = rs.getString("headwriter");
+                            String name = rs.getString("groupname");
+                            String head = rs.getString("headwriter");
+                            String year = rs.getString("yearformed");
+                            String subject = rs.getString("subject");
 
                             //Display values
-                            System.out.printf(displayFormatCol1, dispNull(name));
+                            System.out.printf(displayFormatCol4, dispNull(name), dispNull(head), dispNull(year), dispNull(subject));
                         }
                         System.out.println("");
                     }
@@ -244,15 +246,15 @@ public class JDBC {
             System.out.println("Not a valid Integer please re-try");
         }
         
-        //check range
-        if(value > 0 && value < 7) {
-            return value;
-        }
-        else {
-            System.out.println("Invalid entry, out of range, please re-try");
+        return value;
+    }
+    
+    public static int checkSetRange(int entry, int low, int high) {
+        if(entry > low && entry < high)
+            return entry;
+        else
+            System.out.println("Invalid entry, must be in range");
             return 0;
-        }
-        
     }
     
     public static char validBool(String entry) {
