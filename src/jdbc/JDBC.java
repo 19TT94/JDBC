@@ -96,7 +96,6 @@ public class JDBC {
                           
                 // Queries for each selection
                 if(select == 1) {
-                    System.out.println("In one");
                     //STEP 4: Execute a query
                     System.out.println("\nCreating statement...\n");
                     stmt = conn.createStatement();
@@ -278,7 +277,6 @@ public class JDBC {
                     System.out.println("To see results hit enter and choose books table");
                     System.out.println("");
                 }
-                System.out.println("Hit 'enter' for another query or 'exit' to end program");
                 
                 if(select == 5) {
                     System.out.println("What is the name of the publisher?");
