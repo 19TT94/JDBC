@@ -8,6 +8,8 @@
 package jdbc;
 
 import java.sql.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -121,7 +123,7 @@ public class JDBC {
                     
                     if(answer == 'y') {
                         System.out.println("Enter corresponding number for more data on specific group");
-                        int select2 = checkSetRange(validInt(in.nextLine()), 0, 7);
+                        int select2 = checkSetRange(validInt(in.nextLine()), 0, (count + 1));
                         
                         if(select2 == 0)
                             continue;
@@ -174,7 +176,7 @@ public class JDBC {
                     
                     if(answer == 'y') {
                         System.out.println("Enter corresponding number for more data on specific group");
-                        int select2 = checkSetRange(validInt(in.nextLine()), 0, 2);
+                        int select2 = checkSetRange(validInt(in.nextLine()), 0, (count + 1));
                         
                         if(select2 == 0)
                             continue;
@@ -227,7 +229,7 @@ public class JDBC {
                     
                     if(answer == 'y') {
                         System.out.println("Enter corresponding number for more data on specific group");
-                        int select2 = checkSetRange(validInt(in.nextLine()), 0, 13);
+                        int select2 = checkSetRange(validInt(in.nextLine()), 0, (count + 1));
                         
                         if(select2 == 0)
                             continue;
@@ -255,25 +257,35 @@ public class JDBC {
                 }
 
                 if(select == 4) {
+                    System.out.println("Which writing group is using the authored the book?");
+                    String group = in.nextLine();
+                    System.out.println("What is the title of the book?");
+                    String title = in.nextLine();
+                    System.out.println("What is the name of the publisher?");
+                    String pub = in.nextLine();
+                    System.out.println("What year was it published? (YYYY-MM-DD)");
+                    String year;
+                    String date = in.nextLine();
+                    if(isValidDate(date) == true) {
+                       year = date;
+                    }
+                    else {
+                        System.out.println("Invalid date entry, try again");
+                        continue;
+                    }
+                    System.out.println("How many pages are in the book?");
+                    String pages = in.nextLine();
+                    
                     //STEP 4: Execute a query
                     System.out.println("Creating statement...");
                     stmt = conn.createStatement();
-                    sql = "SELECT au_id, au_fname, au_lname, phone FROM Authors";
-                    rs = stmt.executeQuery(sql);
+                    
+                    sql = "INSERT INTO books " + "VALUES ('" + group + "', '" + title + "', '" + pub + "','" + year + "', " + pages + ")";
+                    System.out.println(sql);
+                    stmt.executeUpdate(sql);
 
-                    //STEP 5: Extract data from result set
-                    System.out.printf(displayFormatCol4, "ID", "First Name", "Last Name", "Phone #");
-                    while (rs.next()) {
-                        //Retrieve by column name
-                        String id = rs.getString("au_id");
-                        String phone = rs.getString("phone");
-                        String first = rs.getString("au_fname");
-                        String last = rs.getString("au_lname");
-
-                        //Display values
-                        System.out.printf(displayFormatCol4, 
-                                dispNull(id), dispNull(first), dispNull(last), dispNull(phone));
-                    }
+                    System.out.println("...Table Updated");
+                    System.out.println("To see results hit enter and choose books table");
                     System.out.println("");
                 }
                 System.out.println("Hit 'enter' for another query or 'exit' to end program");
@@ -345,6 +357,18 @@ public class JDBC {
         }
  
     }
+    
+    public static boolean isValidDate(String inDate) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        dateFormat.setLenient(false);
+        try {
+          dateFormat.parse(inDate.trim());
+        } catch (ParseException pe) {
+          return false;
+        }
+        return true;
+    }
+
 }
 
 
