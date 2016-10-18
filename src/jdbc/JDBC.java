@@ -122,6 +122,10 @@ public class JDBC {
                     if(answer == 'y') {
                         System.out.println("Enter corresponding number for more data on specific group");
                         int select2 = checkSetRange(validInt(in.nextLine()), 0, 7);
+                        
+                        if(select2 == 0)
+                            continue;
+                        
                         System.out.println("\nCreating Statement...\n");
                         sql = "SELECT groupname, headwriter, yearformed, subject FROM writinggroup WHERE groupname = " + "'" +arr.get(select2-1) + "'";
                         rs = stmt.executeQuery(sql);
@@ -151,15 +155,49 @@ public class JDBC {
                     rs = stmt.executeQuery(sql);
 
                     //STEP 5: Extract data from result set
-                    System.out.printf(displayFormatCol1, "Publisher");
+                    System.out.printf(displayFormatCol2, "Publishers", "Publisher Name");
+                    Integer count = 0;
+                    ArrayList arr = new ArrayList();
                     while (rs.next()) {
+                        count++;
                         //Retrieve by column name
                         String name = rs.getString("publishername");
-
+                        arr.add(name);
+                        
                         //Display values
-                        System.out.printf(displayFormatCol1, dispNull(name));
+                        System.out.printf(displayFormatCol2, dispNull(count.toString()), dispNull(name));
                     }
                     System.out.println("");
+                    
+                    System.out.println("Would You like to know more about a specific Publisher? (y/n)");
+                    char answer = validBool(in.nextLine());
+                    
+                    if(answer == 'y') {
+                        System.out.println("Enter corresponding number for more data on specific group");
+                        int select2 = checkSetRange(validInt(in.nextLine()), 0, 2);
+                        
+                        if(select2 == 0)
+                            continue;
+                        
+                        System.out.println("\nCreating Statement...\n");
+                        sql = "SELECT * FROM publishers WHERE publishername = " + "'" +arr.get(select2-1) + "'";
+                        rs = stmt.executeQuery(sql);
+
+                        //STEP 5: Extract data from result set
+                        System.out.printf(displayFormatCol4, "Publisher Name", "Publisher Address", "Publisher Phone", "Publisher Email");
+                        while (rs.next()) {
+                            //Retrieve by column name
+                            String name = rs.getString("publishername");
+                            String add = rs.getString("publisheraddress");
+                            String phone = rs.getString("publisherphone");
+                            String email = rs.getString("publisheremail");
+
+                            //Display values
+                            System.out.printf(displayFormatCol4, dispNull(name), dispNull(add), dispNull(phone), dispNull(email));
+                        }
+                        System.out.println("");
+                    }
+                    
                 }
 
                 if(select == 3) {
@@ -168,17 +206,52 @@ public class JDBC {
                     stmt = conn.createStatement();
                     sql = "SELECT booktitle FROM books";
                     rs = stmt.executeQuery(sql);
-
+                    
+                    Integer count = 0;
+                    ArrayList arr = new ArrayList();
                     //STEP 5: Extract data from result set
-                    System.out.printf(displayFormatCol1,"Books");
+                    System.out.printf(displayFormatCol2, "Books", "Book Titles");
                     while (rs.next()) {
+                        count++;
                         //Retrieve by column name
                         String name = rs.getString("booktitle");
-
+                        arr.add(name);
+                        
                         //Display values
-                        System.out.printf(displayFormatCol1, dispNull(name));
+                        System.out.printf(displayFormatCol2, dispNull(count.toString()), dispNull(name));
                     }
                     System.out.println("");
+                    
+                    System.out.println("Would You like to know more about a specific Publisher? (y/n)");
+                    char answer = validBool(in.nextLine());
+                    
+                    if(answer == 'y') {
+                        System.out.println("Enter corresponding number for more data on specific group");
+                        int select2 = checkSetRange(validInt(in.nextLine()), 0, 13);
+                        
+                        if(select2 == 0)
+                            continue;
+                        
+                        System.out.println("\nCreating Statement...\n");
+                        sql = "SELECT * FROM books WHERE booktitle = " + "'" +arr.get(select2-1) + "'";
+                        rs = stmt.executeQuery(sql);
+
+                        //STEP 5: Extract data from result set
+                        System.out.printf(displayFormatCol5, "Group Name", "Book Title", "Publisher Name", "Year Published", "Number of Pages");
+                        while (rs.next()) {
+                            //Retrieve by column name
+                            String name = rs.getString("groupname");
+                            String title = rs.getString("booktitle");
+                            String pub = rs.getString("publishername");
+                            String year = rs.getString("yearpublished");
+                            String pages = rs.getString("numberpages");
+
+                            //Display values
+                            System.out.printf(displayFormatCol5, dispNull(name), dispNull(title), dispNull(pub), dispNull(year), dispNull(pages));
+                        }
+                        System.out.println("");
+                    }
+                    
                 }
 
                 if(select == 4) {
