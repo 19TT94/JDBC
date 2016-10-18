@@ -32,11 +32,11 @@ public class JDBC {
     //The number indicates how wide to make the field.
     //The "s" denotes that it's a string.  All of our output in this test are 
     //strings, but that won't always be the case.
-    static final String displayFormatCol1="%-15s\n";
-    static final String displayFormatCol2="%-15s%-15s\n";
-    static final String displayFormatCol3="%-15s%-15s%-15s\n";
-    static final String displayFormatCol4="%-15s%-15s%-15s%-15s\n";
-    static final String displayFormatCol5="%-15s%-15s%-15s%-15s%-15s\n";
+    static final String displayFormatCol1="%-20s\n";
+    static final String displayFormatCol2="%-20s%-20s\n";
+    static final String displayFormatCol3="%-20s%-20s%-20s\n";
+    static final String displayFormatCol4="%-20s%-20s%-20s%-20s\n";
+    static final String displayFormatCol5="%-20s%-20s%-20s%-20s%-20s\n";
     // JDBC driver name and database URL
     static final String JDBC_DRIVER = "org.apache.derby.jdbc.ClientDriver";
     static String DB_URL = "jdbc:derby://localhost:1527/";
@@ -330,12 +330,6 @@ public class JDBC {
                     System.out.println("Creating statement...");
                     stmt = conn.createStatement();
                     
-                    for(int i=0; i < arr.size(); i++) {
-                        System.out.println(arr.get(i));
-                    }
-                    
-                    System.out.println(arr.get(select2-1));
-                    
                     sql = "Delete From publishers where publishername = '" + arr.get(select2-1) + "'";
                     System.out.println(sql);
                     stmt.executeUpdate(sql);
@@ -351,8 +345,6 @@ public class JDBC {
                     System.out.println("To see results hit enter and choose books table");
                     System.out.println("");
                 }
-                System.out.println("Hit 'enter' for another query or 'exit' to end program");
-                
           
                 if(select == 6) {
                     System.out.println("Which writing group authored the book?");
@@ -424,7 +416,7 @@ public class JDBC {
                     System.out.println("To see results hit enter and choose books table");
                     System.out.println("");
                 }
-                
+                System.out.println("Hit 'enter' for another query or 'exit' to end program");
             }
 
              //STEP 6: Clean-up environment
