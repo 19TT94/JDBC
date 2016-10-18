@@ -257,7 +257,31 @@ public class JDBC {
                 }
 
                 if(select == 4) {
-                    System.out.println("Which writing group is using the authored the book?");
+                    System.out.println("What is the name of the publisher?");
+                    String name = in.nextLine();
+                    System.out.println("What is the publisher's address?");
+                    String address = in.nextLine();
+                    System.out.println("What is the publisher's phone?");
+                    String phone = in.nextLine();
+                    System.out.println("What is the publisher's email?");
+                    String email = in.nextLine();
+                    
+                    //STEP 4: Execute a query
+                    System.out.println("Creating statement...");
+                    stmt = conn.createStatement();
+                    
+                    sql = "INSERT INTO publishers " + "VALUES ('" + name + "', '" + address + "', '" + phone + "','" + email + "')";
+                    System.out.println(sql);
+                    stmt.executeUpdate(sql);
+
+                    System.out.println("...Table Updated");
+                    System.out.println("To see results hit enter and choose books table");
+                    System.out.println("");
+                }
+                System.out.println("Hit 'enter' for another query or 'exit' to end program");
+          
+                if(select == 5) {
+                    System.out.println("Which writing group authored the book?");
                     String group = in.nextLine();
                     System.out.println("What is the title of the book?");
                     String title = in.nextLine();
@@ -288,9 +312,9 @@ public class JDBC {
                     System.out.println("To see results hit enter and choose books table");
                     System.out.println("");
                 }
-                System.out.println("Hit 'enter' for another query or 'exit' to end program");
+                
             }
-            
+
              //STEP 6: Clean-up environment
             rs.close();
             stmt.close();
