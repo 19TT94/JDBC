@@ -88,11 +88,11 @@ public class JDBC {
                 System.out.println("Information for queries listed below:");
                 System.out.println("(enter number for the desired table listing or action)");
                 System.out.println("Tables:\n1). Writing Groups\n2). Publishers\n3). Book Titles\n");
-                System.out.println("\nUpdate Database:\n4). Add a Publisher\n5). Add a new Book\n6). Remove a book\n");
+                System.out.println("\nUpdate Database:\n4). Add a Publisher\n5). Add and Update\n6). Add a new Book\n7). Remove a book\n");
 
                 int select = 0;
                 System.out.println("Select corresponding number for query, then hit 'enter':");
-                select = checkSetRange(validInt(in.nextLine()), 0, 7);
+                select = checkSetRange(validInt(in.nextLine()), 0, 8);
                           
                 // Queries for each selection
                 if(select == 1) {
@@ -279,8 +279,82 @@ public class JDBC {
                     System.out.println("");
                 }
                 System.out.println("Hit 'enter' for another query or 'exit' to end program");
-          
+                
                 if(select == 5) {
+                    System.out.println("What is the name of the publisher?");
+                    String name = in.nextLine();
+                    System.out.println("What is the publisher's address?");
+                    String address = in.nextLine();
+                    System.out.println("What is the publisher's phone?");
+                    String phone = in.nextLine();
+                    System.out.println("What is the publisher's email?");
+                    String email = in.nextLine();
+
+                    //STEP 4: Execute a query
+                    System.out.println("Creating statement...");
+                    stmt = conn.createStatement();
+                    
+                    sql = "INSERT INTO publishers " + "VALUES ('" + name + "', '" + address + "', '" + phone + "','" + email + "')";
+                    System.out.println(sql);
+                    stmt.executeUpdate(sql);
+
+                    System.out.println("...Table Updated");
+                    System.out.println("Which publisher do you want to replace? Select from list below");
+                    
+                    stmt = conn.createStatement();
+                    sql = "SELECT publishername FROM publishers";
+                    rs = stmt.executeQuery(sql);
+                    
+                    Integer count = 0;
+                    ArrayList arr = new ArrayList();
+                    //STEP 5: Extract data from result set
+                    System.out.printf(displayFormatCol2, "Count", "Publishers");
+                    while (rs.next()) {
+                        count++;
+                        //Retrieve by column name
+                        String pubname = rs.getString("publishername");
+                        arr.add(pubname);
+                        
+                        //Display values
+                        System.out.printf(displayFormatCol2, dispNull(count.toString()), dispNull(pubname));
+                    }
+                    int select2 = checkSetRange(validInt(in.nextLine()), 0, (count + 1));
+                        
+                    if(select2 == 0)
+                        continue;
+                    
+                    System.out.println(select2);
+                    System.out.println(count);
+                    
+                    //STEP 4: Execute a query
+                    System.out.println("Creating statement...");
+                    stmt = conn.createStatement();
+                    
+                    for(int i=0; i < arr.size(); i++) {
+                        System.out.println(arr.get(i));
+                    }
+                    
+                    System.out.println(arr.get(select2-1));
+                    
+                    sql = "Delete From publishers where publishername = '" + arr.get(select2-1) + "'";
+                    System.out.println(sql);
+                    stmt.executeUpdate(sql);
+
+                    System.out.println("...Table Updated");
+                    
+                    stmt = conn.createStatement();
+                    sql = "UPDATE books SET publishername = '" + name + "' WHERE publishername = '" + arr.get(select2-1) + "'";
+                    stmt.executeUpdate(sql);
+                    
+                    System.out.println("...Table Updated");
+                    
+                    System.out.println("To see results hit enter and choose books table");
+                    System.out.println("");
+                }
+                System.out.println("Hit 'enter' for another query or 'exit' to end program");
+                
+          
+                if(select == 6) {
                     System.out.println("Which writing group authored the book?");
                     String group = in.nextLine();
                     System.out.println("What is the title of the book?");
@@ -313,7 +387,7 @@ public class JDBC {
                     System.out.println("");
                 }
                 
-                if(select == 6) {
+                if(select == 7) {
                     stmt = conn.createStatement();
                     sql = "SELECT booktitle FROM books";
                     rs = stmt.executeQuery(sql);
