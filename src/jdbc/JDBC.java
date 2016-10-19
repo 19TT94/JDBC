@@ -88,7 +88,7 @@ public class JDBC {
                 System.out.println("Information for queries listed below:");
                 System.out.println("(enter number for the desired table listing or action)");
                 System.out.println("Tables:\n1). Writing Groups\n2). Publishers\n3). Book Titles\n");
-                System.out.println("\nUpdate Database:\n4). Add a Publisher\n5). Add and Update\n6). Add a new Book\n7). Remove a book\n");
+                System.out.println("\nUpdate Database:\n4). Add a Publisher\n5). Add and Update Publishers\n6). Add a new Book\n7). Remove a book\n");
 
                 int select = 0;
                 System.out.println("Select corresponding number for query, then hit 'enter':");
@@ -274,7 +274,7 @@ public class JDBC {
                     stmt.executeUpdate(sql);
 
                     System.out.println("...Table Updated");
-                    System.out.println("To see results hit enter and choose books table");
+                    System.out.println("To see results hit enter and choose publisher table");
                     System.out.println("");
                 }
                 
